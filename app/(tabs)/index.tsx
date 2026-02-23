@@ -1,98 +1,124 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { Button, View, StyleSheet, ScrollView, Text, RefreshControl } from 'react-native';
+import { TrueSheet } from "@lodev09/react-native-true-sheet"
+import { useRef, useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    const insets = useSafeAreaInsets();
+    const sheet = useRef<TrueSheet>(null)
+    const [showDetails, setShowDetails] = useState(false);
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+    // Present the sheet ✅
+    const present = async () => {
+        await sheet.current?.present()
+        console.log('horray! sheet has been presented 💩')
+    }
+
+    // Dismiss the sheet ✅
+    const dismiss = async () => {
+        await sheet.current?.dismiss()
+        console.log('Bye bye 👋')
+    }
+
+    return (
+        <View style={{ paddingBottom: insets.bottom, paddingTop: insets.top }}>
+            <Button onPress={present} title="Present" />
+            <TrueSheet
+                ref={sheet}
+                detents={[0.3, 1]}
+                cornerRadius={24}
+                dismissible={false}
+                dimmed={false}
+                header={<View style={{ padding: 30 }} />}
+                scrollable
+            >
+                <Button onPress={dismiss} title="Dismiss" />
+                <Button onPress={() => setShowDetails(!showDetails)} title={showDetails ? "Go back" : "Go to details view"} />
+                {!showDetails ?
+                    (
+                        <ScrollView nestedScrollEnabled={false} refreshControl={<RefreshControl refreshing={false} onRefresh={() => console.log("refreshing...")} />}>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                            <Text>Some long text</Text>
+                        </ScrollView>) : <Text>test</Text>}
+            </TrueSheet>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
+    titleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+    },
+    stepContainer: {
+        gap: 8,
+        marginBottom: 8,
+    },
+    reactLogo: {
+        height: 178,
+        width: 290,
+        bottom: 0,
+        left: 0,
+        position: 'absolute',
+    },
 });
