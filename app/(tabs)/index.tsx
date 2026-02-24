@@ -2,13 +2,13 @@ import { Button, View, ScrollView, Text, RefreshControl } from "react-native";
 import { TrueSheet } from "@lodev09/react-native-true-sheet";
 import { useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ShortScrollView } from "@/components/short-scroll-view";
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const sheet = useRef<TrueSheet>(null);
   const [showDetails, setShowDetails] = useState(false);
 
-  const text1 = new Array(2).fill("Some short text");
   const text2 = new Array(60).fill("Detail text");
 
   // Present the sheet ✅
@@ -25,22 +25,10 @@ export default function HomeScreen() {
 
   return (
     <View style={{ paddingBottom: insets.bottom, paddingTop: insets.top }}>
-      <ScrollView
-        style={{ paddingBottom: 30 }}
-        contentContainerStyle={{ backgroundColor: "red" }}
-        nestedScrollEnabled={false}
-        refreshControl={
-          <RefreshControl
-            refreshing={false}
-            onRefresh={() => console.log("refreshing outside of true sheet...")}
-          />
-        }
-      >
-        {text1.map((text, i) => (
-          <Text key={i}>{text}</Text>
-        ))}
-      </ScrollView>
-      <Button onPress={present} title="Present" />
+      <ShortScrollView refreshMessage="refreshing OUTSIDE of true sheet" />
+      <View style={{ paddingTop: 40 }}>
+        <Button onPress={present} title="Present" />
+      </View>
       <TrueSheet
         ref={sheet}
         detents={[0.3, 1]}
@@ -56,20 +44,7 @@ export default function HomeScreen() {
           title={showDetails ? "Go back" : "Go to details view"}
         />
         {!showDetails ? (
-          <ScrollView
-            nestedScrollEnabled={false}
-            contentContainerStyle={{ backgroundColor: "red" }}
-            refreshControl={
-              <RefreshControl
-                refreshing={false}
-                onRefresh={() => console.log("refreshing 1...")}
-              />
-            }
-          >
-            {text1.map((text) => (
-              <Text>{text}</Text>
-            ))}
-          </ScrollView>
+          <ShortScrollView refreshMessage="refreshing INSIDE of true sheet" />
         ) : (
           <ScrollView
             nestedScrollEnabled={false}
