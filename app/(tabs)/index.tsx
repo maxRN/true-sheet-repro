@@ -8,6 +8,9 @@ export default function HomeScreen() {
   const sheet = useRef<TrueSheet>(null);
   const [showDetails, setShowDetails] = useState(false);
 
+  const text1 = new Array(2).fill("Some short text");
+  const text2 = new Array(60).fill("Detail text");
+
   // Present the sheet ✅
   const present = async () => {
     await sheet.current?.present();
@@ -22,6 +25,21 @@ export default function HomeScreen() {
 
   return (
     <View style={{ paddingBottom: insets.bottom, paddingTop: insets.top }}>
+      <ScrollView
+        style={{ paddingBottom: 30 }}
+        contentContainerStyle={{ backgroundColor: "red" }}
+        nestedScrollEnabled={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={false}
+            onRefresh={() => console.log("refreshing outside of true sheet...")}
+          />
+        }
+      >
+        {text1.map((text, i) => (
+          <Text key={i}>{text}</Text>
+        ))}
+      </ScrollView>
       <Button onPress={present} title="Present" />
       <TrueSheet
         ref={sheet}
@@ -40,77 +58,32 @@ export default function HomeScreen() {
         {!showDetails ? (
           <ScrollView
             nestedScrollEnabled={false}
+            contentContainerStyle={{ backgroundColor: "red" }}
             refreshControl={
               <RefreshControl
                 refreshing={false}
-                onRefresh={() => console.log("refreshing...")}
+                onRefresh={() => console.log("refreshing 1...")}
               />
             }
           >
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
-            <Text>Some long text</Text>
+            {text1.map((text) => (
+              <Text>{text}</Text>
+            ))}
           </ScrollView>
         ) : (
-          <Text>test</Text>
+          <ScrollView
+            nestedScrollEnabled={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={false}
+                onRefresh={() => console.log("refreshing 2...")}
+              />
+            }
+          >
+            {text2.map((text) => (
+              <Text>{text}</Text>
+            ))}
+          </ScrollView>
         )}
       </TrueSheet>
     </View>
