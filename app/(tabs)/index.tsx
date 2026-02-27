@@ -1,4 +1,4 @@
-import { Button, View, ScrollView, Text, RefreshControl } from "react-native";
+import { Button, View, Text } from "react-native";
 import { TrueSheet } from "@lodev09/react-native-true-sheet";
 import { useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -7,9 +7,7 @@ import { ShortScrollView } from "@/components/short-scroll-view";
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const sheet = useRef<TrueSheet>(null);
-  const [showDetails, setShowDetails] = useState(false);
-
-  const text2 = new Array(60).fill("Detail text");
+  const [index, setIndex] = useState(-1);
 
   // Present the sheet ✅
   const present = async () => {
@@ -34,32 +32,23 @@ export default function HomeScreen() {
         detents={[0.3, 1]}
         cornerRadius={24}
         dismissible={false}
+        onDidPresent={(event) => setIndex(event.nativeEvent.index)}
+        onDetentChange={(event) => setIndex(event.nativeEvent.index)}
+        onDidDismiss={() => setIndex(-1)}
         dimmed={false}
         header={<View style={{ padding: 30 }} />}
         scrollable
+        onBackPress={() => {
+          console.log("onBackPress triggered");
+          if (index === 1) {
+            sheet.current?.resize(0);
+          } else if (index === 0) {
+            sheet.current?.dismiss();
+          }
+        }}
       >
         <Button onPress={dismiss} title="Dismiss" />
-        <Button
-          onPress={() => setShowDetails(!showDetails)}
-          title={showDetails ? "Go back" : "Go to details view"}
-        />
-        {!showDetails ? (
-          <ShortScrollView refreshMessage="refreshing INSIDE of true sheet" />
-        ) : (
-          <ScrollView
-            nestedScrollEnabled={false}
-            refreshControl={
-              <RefreshControl
-                refreshing={false}
-                onRefresh={() => console.log("refreshing 2...")}
-              />
-            }
-          >
-            {text2.map((text) => (
-              <Text>{text}</Text>
-            ))}
-          </ScrollView>
-        )}
+        <Text>Some text here</Text>
       </TrueSheet>
     </View>
   );
